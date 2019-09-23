@@ -40,6 +40,7 @@ body, .app {
 }
 
 .bookshelf-title {
+  text-align: center;
   border-bottom: 1px solid #dedede;
 }
 
@@ -72,14 +73,29 @@ body, .app {
   background-color: rgb(0, 102, 0);
 }
 
+/* header */
+
+.header {
+  border-radius: initial;
+  text-align: center;
+  color: white;
+  height: 75px;
+  background-color: rgb(0, 102, 0)
+}
+
+.header .main {
+  margin: 0px;
+}
+
 
 /* search page */
 
 .search-books-bar {
+  border-radius: 20px;
   position: fixed;
-  width: 100%;
+  width: 30%;
   top: 0;
-  left: 0;
+  right: 0;
   z-index: 5;
   display: flex;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 0 6px rgba(0,0,0,0.23);
@@ -163,7 +179,7 @@ button:active {
 }
 
 .book-shelf-changer {
-  position: absolute;
+  /*position: absolute;*/
   right: 0;
   bottom: -10px;
   width: 40px;
@@ -189,6 +205,8 @@ button:active {
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
+  height: 128px;
+  weight: 174px;
 }
 
 .book-cover-title {
