@@ -174,12 +174,12 @@ button:active {
 .book-top {
   position: relative;
   height: 200px;
-  display: flex;
+  /*display: flex;*/
   align-items: flex-end;
 }
 
 .book-shelf-changer {
-  /*position: absolute;*/
+  position: absolute;
   right: 0;
   bottom: -10px;
   width: 40px;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { getAll } from './BooksAPI';
-
 import BookShelf from './BookShelf';
 import _ from 'lodash';
 
@@ -14,34 +13,35 @@ class BookList extends Component {
 
   componentDidMount() {
     getAll().then((books) => {
-
       const bookList = books.map((book) => (
-        { title: book.title,
+        { [book.id] : { title: book.title,
           authors: book.authors,
           subtitle: book.subtitle,
           cover: book.imageLinks.thumbnail,
-          shelf: book.shelf
-        }
+          shelf: book.shelf,
+          id: book.id
+        }}
       ))
 
-      this.setState((prevState) => {
+      this.setState(() => {
         return { books: 
-                [...bookList] }
+                  [...bookList] }
       })
     })
    }
 
   booksByShelf = ((shelf) => {
-    return this.state.books.filter((book) => (book.shelf === shelf));
+    const books = this.state.books.map((book) => {
+      if (Object.values(book)[0].shelf === shelf) {
+        return Object.values(book)[0]
+      }
+    });
+    return books.filter((book) => (book != null))
+    // return Object.values(books);
     // const uniqueShelves = new Set(this.state.books.map((book) => book.shelf));
-    // console.log(uniqueShelves);
     // const sortedShelves = {}
     // shelves.forEach((shelf) => shelves[shelf] = {});
-    // console.log(shelves);
-    // console.log(shelves["currentlyReading"]);
-    // console.log(Object.keys(shelves));
     // const newShelves = Object.entries(shelves)
-    // console.log(newShelves)
 
     // this.state.books.map((book) => {
     //   shelves[book.shelf] = [{...shelves[book.shelf],
@@ -49,22 +49,27 @@ class BookList extends Component {
     // })
   })
 
-  // handleShelfChange = (newShelf, book) => {
+  updateBookShelf = ((book, shelf) => {
+    const newBook = {...book, shelf: shelf}
 
-  //   this.setState((prevState) => {
-  //     books: [...prevState.books,
-  //             {...prevState[`${book.title}`]: book.title}
-
-  //   })
-  // }
-
-// <BookShelfChanger currentShelf={book.shelf} onChange={shelf => this.handleShelfChange(shelf, book)}/>
+    this.setState((prevState) => {
+      const withRemovedBook = prevState.books.filter((prevBook) => {
+        return book.id !== Object.keys(prevBook)[0]
+      })
+      // (...prevState.books).delete([newBook.title]);
+      // why doesn't this new book title override the existing key?
+      return {
+        books:  [...withRemovedBook ,
+                {[newBook.id]: newBook}]
+      }}
+    ) 
+  })
 
   render() {
     return (
       shelves.map((shelf) => (
         <div key={shelf} className="list-books-content">
-          <BookShelf name={_.startCase(shelf)} books={this.booksByShelf(shelf)} />
+          <BookShelf name={_.startCase(shelf)} books={this.booksByShelf(shelf)} onShelfChange={this.updateBookShelf}/>
         </div>
       ))
     )

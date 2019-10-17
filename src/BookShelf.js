@@ -1,39 +1,31 @@
-import React, { Component } from 'react';
-import BookShelfChanger from './BookShelfChanger';
+import React from 'react';
 import { update } from './BooksAPI';
+import Book from './Book';
 
-class BookShelf extends Component {
+function BookShelf(props) {
 
-  handleShelfChange = (book, shelf) => {
-    console.log(shelf);
-    update(book, shelf).then((book) => (console.log(book)))
+  const handleShelfChange = (book, shelf) => {
+    console.log(book, shelf);
+    update(book, shelf).then(() => {
+      props.onShelfChange(book, shelf)
+    }
+    )
   }
 
-  render() {
     return(
       <div>
         <div className="bookshelf">
-          <h2 className="bookshelf-title bookshelf">{this.props.name}</h2>
+          <h2 className="bookshelf-title bookshelf">{props.name}</h2>
           <div className="bookshelf-books">
           <ol className="books-grid">
-          {this.props.books.map((book) => {
-              return (
-              <li key={book.title}>
-                <div key={book.title} className="book">
-                  <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.authors}</div>
-                  <div className="book-cover" style={{backgroundImage: `url(${book.cover})`}}></div>
-                  <BookShelfChanger currentShelf={book.shelf} onChange={(event) => this.handleShelfChange(book, event.target.value)}/>
-                </div>
-              </li>
-              )
-          })}
+            {props.books.map((book) => {
+              return (<Book key={book.id} book={book} onShelfChange={(shelf) => handleShelfChange(book, shelf)} />)
+            })}
           </ol>
           </div>
         </div>
       </div>
     )
-  }
 }
 
 export default BookShelf;
