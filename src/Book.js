@@ -8,10 +8,11 @@ class Book extends Component {
   }
 
   render() {
+    let cover = this.props.book.cover || this.props.book.imageLinks.thumbnail;
     return(
       <li key={this.props.book.title} className="book">
         <div className="book-top">
-          <div className="book-cover" style={{backgroundImage: `url(${this.props.book.cover})`}}></div>
+          <div className="book-cover" style={{backgroundImage: `url(${cover})`}}></div>
           <BookShelfChanger
             currentShelf={this.state.currentShelf}
             onChange={(event) => this.props.onShelfChange(event.target.value)}/>
