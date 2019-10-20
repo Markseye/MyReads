@@ -1,16 +1,7 @@
 import React from 'react';
-import { update } from './BooksAPI';
 import Book from './Book';
 
 function BookShelf(props) {
-
-  const handleShelfChange = (book, shelf) => {
-    console.log(book, shelf);
-    update(book, shelf).then(() => {
-      props.onShelfChange(book, shelf)
-    }
-    )
-  }
 
     return(
       <div>
@@ -19,7 +10,9 @@ function BookShelf(props) {
           <div className="bookshelf-books">
           <ol className="books-grid">
             {props.books.map((book) => {
-              return (<Book key={book.id} book={book} onShelfChange={(shelf) => handleShelfChange(book, shelf)} />)
+              return (<Book key={book.id}
+                            book={book}
+                            onShelfChange={(shelf) => props.onShelfChange(book, shelf)} />)
             })}
           </ol>
           </div>
